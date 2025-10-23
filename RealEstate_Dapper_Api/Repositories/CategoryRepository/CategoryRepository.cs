@@ -25,6 +25,17 @@ public class CategoryRepository : ICategoryRepository
         }
     }
 
+    public async void DeleteCategory(int id)
+    {
+        string query = "Delete From Category Where CategoryID = @categoryID";
+        var parameters = new DynamicParameters();
+        parameters.Add("@categoryID", id);
+        using (var connection = _context.CreateConnection())
+        {
+            await connection.ExecuteAsync(query, parameters);
+        }
+    }
+
     public async Task<List<ResultCategoryDto>> GetAllCategoryAsync()
     {
         string query = "Select * From Category";
@@ -32,6 +43,19 @@ public class CategoryRepository : ICategoryRepository
         {
             var values = await connection.QueryAsync<ResultCategoryDto>(query);
             return values.ToList();
+        }
+    }
+
+    public void UpdateCategory(UpdateCategoryDto updateCategoryDto)
+    {
+        string query = "Update Category Set CategoryName = @categoryName, CategoryStatus = @categoryStatus Where CategoryID = @categoryID";
+        var parameters = new DynamicParameters();
+        parameters.Add("@categoryName", updateCategoryDto.CategoryName);
+        parameters.Add("@categoryStatus", updateCategoryDto.CategoryStatus);
+        parameters.Add("@categoryID", updateCategoryDto.CategoryID);
+        using (var connection = _context.CreateConnection())
+        {
+            connection.ExecuteAsync(query, parameters);
         }
     }
 }

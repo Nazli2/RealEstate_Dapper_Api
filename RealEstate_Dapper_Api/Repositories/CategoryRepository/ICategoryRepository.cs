@@ -6,4 +6,6 @@ public interface ICategoryRepository
 {
     Task<List<ResultCategoryDto>> GetAllCategoryAsync();
     void CreateCategory(CreateCategoryDto createCategoryDto);
+    void DeleteCategory(int id);
+    void UpdateCategory(UpdateCategoryDto updateCategoryDto);
 }
