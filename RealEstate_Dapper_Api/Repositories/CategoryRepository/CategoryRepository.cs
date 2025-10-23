@@ -1,6 +1,6 @@
-﻿using RealEstate_Dapper_Api.Dtos;
-using RealEstate_Dapper_Api.Models.DapperContext;
+﻿using RealEstate_Dapper_Api.Models.DapperContext;
 using Dapper;
+using RealEstate_Dapper_Api.Dtos.CategoryDtos;
 
 namespace RealEstate_Dapper_Api.Repositories.CategoryRepository;
 
@@ -46,7 +46,19 @@ public class CategoryRepository : ICategoryRepository
         }
     }
 
-    public void UpdateCategory(UpdateCategoryDto updateCategoryDto)
+    public async Task<GetByIDCategoryDto> GetCategory(int id)
+    {
+        string query = "Select * From Category Where CategoryID = @categoryID";
+        var parameters = new DynamicParameters();
+        parameters.Add("@categoryID", id);
+        using (var connection = _context.CreateConnection())
+        {
+           var values = await connection.QueryFirstOrDefaultAsync<GetByIDCategoryDto>(query, parameters);
+            return values;
+        }
+    }
+
+    public async void UpdateCategory(UpdateCategoryDto updateCategoryDto)
     {
         string query = "Update Category Set CategoryName = @categoryName, CategoryStatus = @categoryStatus Where CategoryID = @categoryID";
         var parameters = new DynamicParameters();
@@ -55,7 +67,7 @@ public class CategoryRepository : ICategoryRepository
         parameters.Add("@categoryID", updateCategoryDto.CategoryID);
         using (var connection = _context.CreateConnection())
         {
-            connection.ExecuteAsync(query, parameters);
+            await connection.ExecuteAsync(query, parameters);
         }
     }
 }

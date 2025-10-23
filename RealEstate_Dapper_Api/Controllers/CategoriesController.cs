@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RealEstate_Dapper_Api.Dtos;
+using RealEstate_Dapper_Api.Dtos.CategoryDtos;
 using RealEstate_Dapper_Api.Repositories.CategoryRepository;
 
 namespace RealEstate_Dapper_Api.Controllers;
@@ -42,4 +42,11 @@ public class CategoriesController : ControllerBase
         _categoryRepository.UpdateCategory(updateCategoryDto);
         return Ok("Kategori Başarılı Bir Şekilde Güncellendi");
     }
- }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetCategory(int id)
+    {
+        var value = await _categoryRepository.GetCategory(id);
+        return Ok(value);
+    }
+}
