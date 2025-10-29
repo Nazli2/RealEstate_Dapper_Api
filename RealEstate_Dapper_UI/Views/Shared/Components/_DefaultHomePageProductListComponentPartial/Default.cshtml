@@ -11,11 +11,11 @@
                     <div class="col-lg-4 col-md-6">
                         <a href="property-single.html">
                             <div class="box16">
-                                <div class="rentext-listing-category"><span>Satılık</span><span>@item.CategoryName</span></div>
-                                <img class="img-fluid" src="~/starter/assets/images/Yazlık.jpeg" alt="">
+                                <div class="rentext-listing-category"><span>@item.Type</span><span>@item.CategoryName</span></div>
+                                <img class="img-fluid" style="height:200px;width:700px" src="@item.CoverImage" alt="">
                                 <div class="box-content">
                                     <h3 class="title">₺ @item.Price</h3>
-                                    <span class="post">@item.District - @item.City</span>
+                                    <span class="post">@item.Address @item.District - @item.City</span>
                                 </div>
                             </div>
                         </a>
